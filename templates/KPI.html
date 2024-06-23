@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>KPI异常检测</title>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/static/css/table.css" />
+    <link rel="stylesheet" href="/static/css/global.css" media="all">
+    <link rel="stylesheet" href="/static/plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css">
+    <style>
+        .separate-fieldset {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="margin: 15px;width: 45%;float: left">
+        <form class="layui-form" action="/UploadKPIFile" method="post" enctype="multipart/form-data">
+            <fieldset class="layui-elem-field">
+                <legend>模型训练</legend>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选择训练集</label>
+                    <div class="layui-input-block">
+                        <select name="model" class="layui-input">
+                            <option value="SMAP">SMAP</option>
+                            <option value="MSL">MSL</option>
+                            <option value="SMD">SMD</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="startTraining">开始训练</button>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="layui-elem-field separate-fieldset">
+                <legend>异常检测</legend>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">测试文件</label>
+                    <div class="layui-input-block">
+                        <input type="file" name="kpiFile" class="layui-input">
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-sm" lay-submit="">提交文件</button>
+                    <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript" src="/static/js/ffevent.js"></script>
+    <script type="text/javascript" src="/static/plugins/layui/layui.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script>
+        layui.use(['form', 'layer'], function () {
+            var form = layui.form,
+                layer = layui.layer;
+            var $ = layui.jquery;
+
+            form.on('submit', function (data) {
+                data = data.field;
+                $.ajax({
+                    url: '/UploadKPIFile',
+                    dataType: "html",
+                    type: "POST",
+                    data: new FormData($('form')[0]),
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        var resultCode = jQuery.parseJSON(data).resultCode;
+                        if (resultCode == '0') {
+                            layer.msg('文件上传成功');
+                        } else {
+                            layer.alert(jQuery.parseJSON(data).result, {title: false, skin: "layui-layer-molv", area: ["250px", "150px"], time: 10000, btn: ["知道了"]});
+                        }
+                    }
+                });
+
+                return false;
+            });
+
+            $('#startTraining').on('click', function () {
+                var selectedModel = $('select[name="model"]').val();
+                if (!selectedModel) {
+                    layer.alert('请先选择训练集', {title: false, skin: "layui-layer-molv", area: ["250px", "150px"], time: 5000, btn: ["知道了"]});
+                    return;
+                }
+
+                $.ajax({
+                    url: '/StartTraining',
+                    dataType: "html",
+                    type: "POST",
+                    data: { model: selectedModel },
+                    success: function (data) {
+                        var resultCode = jQuery.parseJSON(data).resultCode;
+                        if (resultCode == '0') {
+                            layer.msg('训练开始');
+                        } else {
+                            layer.alert(jQuery.parseJSON(data).result, {title: false, skin: "layui-layer-molv", area: ["250px", "150px"], time: 10000, btn: ["知道了"]});
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
