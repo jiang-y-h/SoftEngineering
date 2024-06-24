@@ -69,17 +69,24 @@ def upload_kpi_file():
         save_path = os.path.join('uploads', filename)
         kpi_file.save(save_path)
         test = os.path.splitext(filename)[0]
-        # 获取当前脚本所在目录
-        current_directory = os.path.dirname(os.path.abspath(__file__))
-        parent_directory = os.path.dirname(current_directory)
-        # 保存当前工作目录
-        original_directory = os.getcwd()
-        # 切换工作目录到 data_preprocess.py 所在目录
-        os.chdir(os.path.join(parent_directory, 'OmniAnomaly'))
-        os.system(f"python main.py 0 {test}")
-        # 恢复原始工作目录
-        os.chdir(original_directory)
 
-        return jsonify({'resultCode': '0', 'result': f'文件上传成功: {filename}'})
+        try:
+            current_directory = os.path.dirname(os.path.abspath(__file__))
+            parent_directory = os.path.dirname(current_directory)
+            original_directory = os.getcwd()
+            os.chdir(os.path.join(parent_directory, 'OmniAnomaly'))
+            os.system(f"python main.py 0 {test}")
+            os.chdir(original_directory)
+
+
+            return jsonify({
+                'resultCode': '0',
+                'result': f'文件上传成功: {filename}',
+                'imagePath': url_for('static', filename='result/anomaly_detection_plot.png')
+            })
+
+        except Exception as e:
+            return jsonify({'resultCode': '1', 'result': f'文件处理失败：{str(e)}'})
 
     return jsonify({'resultCode': '1', 'result': '文件上传失败'})
+
