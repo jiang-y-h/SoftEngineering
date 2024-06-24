@@ -29,7 +29,7 @@ def start_training():
         os.chdir(os.path.join(parent_directory, 'OmniAnomaly'))
         # 构建相对路径调用 data_preprocess.py
         os.system(f"python data_preprocess.py {train_data}")
-        os.system(f"python main.py")
+        os.system(f"python main.py 1")
         # 恢复原始工作目录
         os.chdir(original_directory)
         
@@ -53,3 +53,33 @@ def KPIhome():
             return jsonify({'resultCode': '1', 'result': '未选择训练集'})
 
     return render_template('kPI.html')
+
+
+@app.route('/UploadKPIFile', methods=['POST'])
+def upload_kpi_file():
+    if 'kpiFile' not in request.files:
+        return jsonify({'resultCode': '1', 'result': '未上传文件'})
+
+    kpi_file = request.files['kpiFile']
+    if kpi_file.filename == '':
+        return jsonify({'resultCode': '1', 'result': '未选择文件'})
+
+    if kpi_file:
+        filename = kpi_file.filename
+        save_path = os.path.join('uploads', filename)
+        kpi_file.save(save_path)
+        test = os.path.splitext(filename)[0]
+        # 获取当前脚本所在目录
+        current_directory = os.path.dirname(os.path.abspath(__file__))
+        parent_directory = os.path.dirname(current_directory)
+        # 保存当前工作目录
+        original_directory = os.getcwd()
+        # 切换工作目录到 data_preprocess.py 所在目录
+        os.chdir(os.path.join(parent_directory, 'OmniAnomaly'))
+        os.system(f"python main.py 0 {test}")
+        # 恢复原始工作目录
+        os.chdir(original_directory)
+
+        return jsonify({'resultCode': '0', 'result': f'文件上传成功: {filename}'})
+
+    return jsonify({'resultCode': '1', 'result': '文件上传失败'})

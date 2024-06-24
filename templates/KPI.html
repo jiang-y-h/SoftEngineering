@@ -12,6 +12,10 @@
         .separate-fieldset {
             margin-top: 30px;
         }
+        #resultImage {
+            margin-top: 20px;
+            display: none;
+        }
     </style>
 </head>
 
@@ -56,6 +60,8 @@
         </form>
     </div>
 
+    <img id="resultImage" src="" alt="处理结果图片">
+
     <script type="text/javascript" src="/static/js/ffevent.js"></script>
     <script type="text/javascript" src="/static/plugins/layui/layui.js"></script>
     <script src="/static/js/jquery.min.js"></script>
@@ -69,17 +75,21 @@
                 data = data.field;
                 $.ajax({
                     url: '/UploadKPIFile',
-                    dataType: "html",
+                    dataType: "json",
                     type: "POST",
                     data: new FormData($('form')[0]),
                     processData: false,
                     contentType: false,
                     success: function (data) {
-                        var resultCode = jQuery.parseJSON(data).resultCode;
+                        var resultCode = data.resultCode;
                         if (resultCode == '0') {
                             layer.msg('文件上传成功');
+                            var imagePath = data.imagePath;
+                            if (imagePath) {
+                                $('#resultImage').attr('src', '/' + imagePath).show();
+                            }
                         } else {
-                            layer.alert(jQuery.parseJSON(data).result, {title: false, skin: "layui-layer-molv", area: ["250px", "150px"], time: 10000, btn: ["知道了"]});
+                            layer.alert(data.result, {title: false, skin: "layui-layer-molv", area: ["250px", "150px"], time: 10000, btn: ["知道了"]});
                         }
                     }
                 });
@@ -96,15 +106,15 @@
 
                 $.ajax({
                     url: '/StartTraining',
-                    dataType: "html",
+                    dataType: "json",
                     type: "POST",
                     data: { model: selectedModel },
                     success: function (data) {
-                        var resultCode = jQuery.parseJSON(data).resultCode;
+                        var resultCode = data.resultCode;
                         if (resultCode == '0') {
                             layer.msg('训练开始');
                         } else {
-                            layer.alert(jQuery.parseJSON(data).result, {title: false, skin: "layui-layer-molv", area: ["250px", "150px"], time: 10000, btn: ["知道了"]});
+                            layer.alert(data.result, {title: false, skin: "layui-layer-molv", area: ["250px", "150px"], time: 10000, btn: ["知道了"]});
                         }
                     }
                 });
