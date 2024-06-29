@@ -40,8 +40,8 @@ def GetPie():
         resJson.append({
                 'ttl':'CPU状态',
                 'subtext':str(cpuCount)+'核心',
-                'keys':['使用率','空闲'],
-                'json':[{'value':cpuPercent,'name':'使用率'},{'value':cpufree,'name':'空闲'}],
+                'keys':['已使用','空闲'],
+                'json':[{'value':cpuPercent,'name':'已使用'},{'value':cpufree,'name':'空闲'}],
                 'pieBox':'echartsCPU',
                 'suffix':'%'
 
@@ -76,7 +76,7 @@ def GetPie():
             sysinfo.append(platform.uname().processor)
         except:
             pass
-        sysinfo.append('已开机运行了'+systim)
+        sysinfo.append('开机运行时间'+systim)
     except Exception as e:
         return json.dumps({'resultCode':1,'result':str(e)})
     else:

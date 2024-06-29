@@ -39,7 +39,7 @@
             <a id='fileRoute' style="margin-left:10px"></a>
         </blockquote>
         <fieldset class="layui-elem-field">
-            <legend>共有<a id='fileQuantity'>0</a>个文件&#8195;<a style="font-size: 10px" class='layui-btn layui-btn-normal layui-btn-sm' id='already' onclick="alertSelectList()">已选中0个文件</a>
+            <legend>当前目录下有<a id='fileQuantity'>0</a>个文件&#8195;<a style="font-size: 10px" class='layui-btn layui-btn-normal layui-btn-sm' id='already' onclick="alertSelectList()">已选中0个文件</a>
             </legend>
             <div class="layui-field-box">
                 <table class="site-table table-hover">
@@ -140,7 +140,7 @@
                     if (filetypes == 'pic') {
                         hem += "&#12288;<a class='layui-btn layui-btn-sm'  href='javascript:void(0);' onclick='visit()' id='" + item.fileName + "'>预览</a>&#12288;";
                     }
-                    hem += "<a class='layui-btn layui-btn-sm' href='javascript:void(0);' onclick='codeEdit()' id='" + item.fileName + "'>编辑</a>";
+                    hem += "<a class='layui-btn layui-btn-sm' href='javascript:void(0);' onclick='codeEdit()' id='" + item.fileName + "' style='background-color: red;'>在线编辑</a>";
                     hem += "&#12288;<a class='layui-btn layui-btn-normal layui-btn-sm'  href='javascript:void(0);' onclick='DownFile()' id='" + item.fileName + "'>下载</a>";
                 hem += "&#12288;<a class='layui-btn layui-btn-normal layui-btn-sm'  href='javascript:void(0);' onclick='fileShare()' id='" + item.fileName + "'>分享</a>";
                 } else {

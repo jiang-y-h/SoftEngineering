@@ -12,10 +12,10 @@ import traceback
 from lib import extract
 from config.config import workPath
 from .login import cklogin
-url.append( {"title": "文件管理",
+url.append( {"title": "魔都网盘",
     "children": [
         {"title": "文件管理器","href": "/file"},
-        {"title": "文件分享","href": "/getFileShare"}
+        {"title": "共享文件","href": "/getFileShare"}
         ]
     })
 sep=os.path.sep          #当前系统分隔符

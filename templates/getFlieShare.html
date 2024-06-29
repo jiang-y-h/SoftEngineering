@@ -9,39 +9,90 @@
     <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/css/table.css" />
     <script src="/static/js/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .admin-main {
+            padding: 20px;
+        }
+
+        .layui-elem-field {
+            background-color: #ffffff;
+            border: 1px solid #d2d2d2;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .layui-elem-quote {
+            background-color: #f7f7f7;
+            border-left: 5px solid #1e9fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .layui-btn {
+            background-color: #1e9fff;
+            border-color: #1e9fff;
+            color: white;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+
+        .layui-btn:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        .site-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .site-table th, .site-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e2e2;
+        }
+
+        .site-table th {
+            background-color: #f1f1f1;
+            text-align: left;
+        }
+
+        .site-table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 
 <body>
     <div class="admin-main">
         <fieldset class="layui-elem-field">
             <div class="layui-field-box">
-            <blockquote class="layui-elem-quote">
-            这里可以提供一个类似于网盘的文件分享的功能,让你或其他人快捷下载文件
-            <br>
-            你可以在文件管理器中点击【分享】,来将文件分享到这里
-          </blockquote>
+                <blockquote class="layui-elem-quote">
+                    提供文件分享的功能,用于快捷下载文件
+                    <br>
+                    在文件管理器中点击【分享】,可将文件分享到此处
+                </blockquote>
                 <table class="site-table table-hover">
                     <thead>
                         <tr>
-                            <th>
-                                文件名
-                            </th>
-                            <th>
-                                大小
-                            </th>
-                            <th>
-                                提取码
-                            </th>
-                            <th>
-                                分享链接
-                            </th>
-                            <th>
-                                操作
-                            </th>
+                            <th style="text-align: center;">文件名</th>
+                            <th style="text-align: center;">大小</th>
+                            <th style="text-align: center;">提取码</th>
+                            <th style="text-align: center;">提取链接</th>
+                            <th style="text-align: center;">操作</th>
                         </tr>
                     </thead>
-                    <tbody id="dataList">
-                    </tbody>
+                    <tbody id="dataList"></tbody>
                 </table>
             </div>
         </fieldset>
@@ -49,10 +100,10 @@
 
     <script type="text/javascript" src="/static/plugins/layui/layui.js"></script>
     <script type="text/javascript">
-        getHtml = function () {
+        function getHtml() {
             var $ = layui.jquery;
-            $("tbody[id='dataList']").html("")
-            var alldata = []
+            $("tbody[id='dataList']").html("");
+            var alldata = [];
             var hem = '';
             $.ajax({
                 type: "POST",
@@ -62,70 +113,64 @@
                     alldata = jQuery.parseJSON(data).result;
                     $.each(alldata, function (i, item) {
                         hem += '<tr>';
-                        hem += "<td><a onclick='showAllPath(\""+ item. filepath+"\")'>" + item.filename+ "</a></td>";
+                        hem += "<td><a onclick='showAllPath(\""+ item.filepath+"\")'>" + item.filename+ "</a></td>";
                         hem += "<td>" + item.filesize+ "</td>";
                         hem += "<td>" + item.vie+ "</td>";
                         hem += "<td>" + window.location.host+'/FileShare?ids='+item.ids+ "</td>";
-                        hem += "<td>"
-                        hem += "&#12288;<a class='layui-btn layui-btn-normal layui-btn-sm'  href='javascript:void(0);' onclick='Delete(\""+ item. ids+"\")'>删除</a>";
+                        hem += "<td>";
+                        hem += "<a class='layui-btn layui-btn-normal layui-btn-sm' href='javascript:void(0);' onclick='Delete(\""+ item.ids+"\")'>删除</a>";
                         hem += "</td></tr>";
                     });
-                    $("tbody[id='dataList']").html(hem)
+                    $("tbody[id='dataList']").html(hem);
                 }
             });
-        };
+        }
+
         layui.config({
             base: '/static/plugins/layui/modules/'
         });
+
         layui.use(['icheck', 'laypage', 'layer'], function () {
-            var files = '';
             var $ = layui.jquery,
                 laypage = layui.laypage,
                 layer = parent.layer === undefined ? layui.layer : parent.layer;
+
             $('input').iCheck({
                 checkboxClass: 'icheckbox_flat-green'
             });
 
- getHtml();
- showAllPath = function(paths){
-    layer.alert(paths)
- }
+            getHtml();
 
-            Delete = function (ids) {
+            window.showAllPath = function(paths) {
+                layer.alert(paths);
+            }
 
-                clickfilename = event.srcElement.id;
-                clickalert = layer.alert('真的要删除吗', {
-                    skin: 'layui-layer-molv' //样式类名  自定义样式
-                    ,
-                    closeBtn: 1 // 是否显示关闭按钮
-                    ,
-                    anim: 0 //动画类型
-                    ,
-                    btn: ['确定', '取消'] //按钮
-                    ,
-                    icon: 0 // icon
-                    ,
+            window.Delete = function(ids) {
+                var clickfilename = event.srcElement.id;
+                var clickalert = layer.alert('真的要删除吗', {
+                    skin: 'layui-layer-molv',
+                    closeBtn: 1,
+                    anim: 0,
+                    btn: ['确定', '取消'],
+                    icon: 0,
                     yes: function () {
                         $.ajax({
                             type: "POST",
                             dataType: "html",
                             url: '/deleteFileShare',
-                            data: {
-                                'ids': ids
-                            },
+                            data: { 'ids': ids },
                             success: function (data) {
-                                layer.msg('删除成功')
-                                getHtml()
+                                layer.msg('删除成功');
+                                getHtml();
                             }
                         });
                         layer.close(clickalert);
-                    }, btn2: function () {
+                    },
+                    btn2: function () {
                         layer.msg('删除取消');
                     }
                 });
             };
-
-
         });
     </script>
 </body>
