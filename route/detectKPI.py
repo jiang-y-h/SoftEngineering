@@ -8,7 +8,7 @@ from .login import cklogin
 import threading  # 用于多线程处理
 
 url.append({
-    "title": "KPI异常检测",
+    "title": "异常检测",
     "href": "/KPI",
 })
 
