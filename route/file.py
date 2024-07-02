@@ -12,7 +12,7 @@ import traceback
 from lib import extract
 from config.config import workPath
 from .login import cklogin
-url.append( {"title": "魔都网盘",
+url.append( {"title": "文件管理",
     "children": [
         {"title": "文件管理器","href": "/file"},
         {"title": "共享文件","href": "/getFileShare"}
