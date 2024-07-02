@@ -5,7 +5,7 @@ ResSaveDay = 30          #默认资源监控保存时间
 ResInv = 180             #默认资源监控的纪录周期，单位：秒
 port = 9001              #面板默认启动端口
 username = 'admin'       #默认登陆账号
-password = 'modu'      #默认密码
+password = 'admin'      #默认密码
 NATPenetration = None    #是否开启内网穿透,让运行本服务的无外网IP的设备,可在外网访问,不需要此服务时填写None,需要时,更改此项为运行提供穿透的服务端的IP,如'192.168.1.94'
 #开启穿透服务需要将位于本项目的server.zip,解压后单独放在有外网IP的电脑中运行其中的index.py,运行前切记根据需要修改server/config.py
 #内网穿透后,该外网IP请访问服务端查看
