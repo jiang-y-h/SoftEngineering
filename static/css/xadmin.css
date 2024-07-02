@@ -88,7 +88,7 @@ body{
 .container{
     width: 100%;
     height: 45px;
-    background-color: #222;
+    background-color: #2bc0ce;
 }
 .container a,.layui-nav .layui-nav-item a{
     color: #fff;
