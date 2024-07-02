@@ -65,11 +65,11 @@ body{
 }
 .page span.current{
     display: inline-block;
-    background: #009688;
+    background: #1e9fff;
     color: #fff;
     padding: 5px;
     min-width: 15px;
-    border: 1px solid #009688;
+    border: 1px solid #1e9fff;
 }
 .page .pagination li{
     display: inline-block;
@@ -77,9 +77,9 @@ body{
     text-align: center;
 }
 .page .pagination li.active span{
-    background: #009688;
+    background: #1e9fff;
     color: #fff;
-    border: 1px solid #009688;
+    border: 1px solid #1e9fff;
 
 }
 
@@ -188,14 +188,14 @@ body{
     transition: all 0.3s;
 }
 .left-nav a:hover{
-    background: #009688 !important;
+    background: #1e9fff !important;
     color: #fff;
-    border-color:  #04564e !important;
+    border-color:  #1e9fff !important;
 }
 .left-nav a.active{
-    background: #009688 !important;
+    background: #1e9fff !important;
     color: #fff;
-    border-color:  #04564e !important;
+    border-color:  #1e9fff !important;
 }
 .left-nav #nav li a cite{
     font-size: 14px;
@@ -346,7 +346,7 @@ body{
     font-style:normal;
     font-size:30px;
     font-weight:300;
-    color:#009688
+    color:#1e9fff
 }
 .x-admin-backlog-body:hover {
     background-color:#CFCFCF;
