@@ -1,4 +1,4 @@
-workPath="D:\\大学三年级\\软件工程\\期末作业"             #文件管理器工作路径
+workPath="share"             #文件管理器工作路径
 visitDay = 1             #资源监控 前端默认显示的时间范围，单位：天
 ResState = True          #默认开启资源监控
 ResSaveDay = 30          #默认资源监控保存时间
