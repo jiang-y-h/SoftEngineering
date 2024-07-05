@@ -190,6 +190,20 @@ def main(train_flag):
                 current_directory = os.getcwd()
                 parent_directory = os.path.dirname(current_directory)
                 save_path = os.path.join(parent_directory,'static','result', 'anomaly_detection_plot.png')
+
+                info_save_path=os.path.join(parent_directory,'share', 'info.txt')
+                # 保存异常信息
+                with open(info_save_path, 'w') as f:
+                    f.write("Total number of data points in the test set:"+str(total_data_points)+'\n')
+                    f.write("Number of anomalies in the test set:"+str(num_anomalies)+'\n')
+                    f.write("index:"+str(anomalies_indices)+'\n')
+                    f.write("true index:"+str(true_anomalies_indices)+'\n')
+                    f.write("true index:"+str(len(true_anomalies_indices))+'\n')
+                    for anomaly in anomalies:
+                        line = ' '.join(map(str, anomaly))  # 将每个异常点转换为字符串，并以空格分隔
+                        f.write(line + '\n')
+                
+                
                 save_score_plot(test_score, anomalies_indices, save_path)
                 return 
 

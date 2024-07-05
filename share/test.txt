@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 dsds
+=======
+qqq
+sdsd
+>>>>>>> 6fd7bf052989a9a6bdb8be4fbd18b00c7a0b0afb
